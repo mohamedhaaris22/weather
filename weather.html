@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url(https://th.bing.com/th/id/OIP.BMzBM_-rMoBo58OSntlAfgHaE8?rs=1&pid=ImgDetMain);
+            background-size: cover;
+        }
+        .shadow{
+            box-shadow: 2px 2px 2px 1px lightgreen;
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body style="align-items: center;justify-content: center;">
+    <h1 style="color: rgb(0, 13, 255); text-align: center; font-family: Verdana, Geneva, Tahoma, sans-serif;"><b>Real Time Weather Application</b> </h1>
+    <div id="container" style="margin-top: 60px;margin-bottom: 100px;"></div>
+    <div class="col-md-offset-4 col-md-3"></div>
+    <h3 class="page-header text-primary text-center " style="align-items: center;justify-content: center; color:purple;"><span class="fas fa-cloud sun"></span>Weather application</h3>
+
+    {% if messages %}
+    {% for message in messages %}
+       {% if message.tags == 'error' %}
+          <div class="alert alert-danger">
+            {{message}}
+          </div>
+          {% else %}
+          <div class="alert alert-{{message.tags}}">
+            {{message}}
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+    <form method="post" style="align-items: center; justify-content: center;">
+       {% csrf_token %}
+       <div class="input">
+        {{form.name}}
+        <span class="input-btn"></span>
+        <button class="primary-btn" type="submit"><span class="fa fa-sun"></span>Add City</button>
+       </div>
+    </form>
+
+      {% for city_weather in data %}
+          <div class="shadow">
+            <div class="media">
+                <a href="#"><img src="http://openweathermap.org/img/w/{{city_weather.icon}}.png" style="background-image: url(https://cdn.pixabay.com/photo/2018/04/06/21/52/wood-3297117_1280.jpg);" class="media-object" alt="photo">
+                </a>
+            </div>
+            <div class="media-body" style="background-image: url(https://cdn.pixabay.com/photo/2017/12/01/08/52/circles-2990426_1280.jpg);">
+                <h3 class="media-heading" style="color:black;"><b>{{city_weather.city}}</b></h3>
+                <h4 style="color: red;">{{city_weather.temperature}}&deg;C</h4>
+                <h4 style="color: white;">{{city_weather.description}}</h4>
+                <h4 style="color: green;">{{city_weather.country}}</h4>
+            </div>
+              <div class="media-right">
+                <h3><a href="{% url 'Dcity' city_weather.city %}" style="text-decoration: none;background-image: url(https://cdn.pixabay.com/photo/2023/04/26/07/14/desert-7951761_1280.jpg);" class="text-danger">&#x2718;</a></h3>
+              </div>
+             
+          </div>
+       {% endfor %}
+    <script>
+        $(document).ready(function(){
+            $(".alert").hide(4000);
+        })
+
+
+
+      </script>  
+
+
+
+
+
+    <script src="https://kit.fontawesome.com/203acf8eb9.js" crossorigin="anonymous"></script>
+</body>
+</html>
